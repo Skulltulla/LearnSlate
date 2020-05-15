@@ -1,0 +1,52 @@
+# ----------------------------------------------------------------------------------------------------
+# OVERVIEW
+#
+# A gitignore file for an Unreal Engine 4 blueprint/c++ project. Remember to include a '.gitattributes' 
+# file and you might want to make your plugins git submodules. 
+#
+# REFERENCES
+#
+# 1. Epic Games, Inc. "Directory Structure". [Online]. 
+# 	Available: https://docs.unrealengine.com/en-US/Engine/Basics/DirectoryStructure/index.html. [Accessed 2019 Nov. 22]
+#
+# 2. Epic Games, Inc. "Plugins". [Online]. 
+# 	Available: https://docs.unrealengine.com/en-US/Programming/Plugins/index.html. [Accessed 2019 Nov. 22]
+#
+# 3. Epic Games, Inc. "Reducing Packaged Game Size". [Online]. 
+# 	Available: https://docs.unrealengine.com/en-US/Engine/Performance/ReducingPackageSize/index.html. [Accessed 2019 Nov. 22]
+#
+# 4. git-scm.com. "Git - gitignore Documentation". [Online].
+#	Available: https://git-scm.com/docs/gitignore. [Accessed 2019 Nov. 22]
+# ----------------------------------------------------------------------------------------------------
+
+# --------------------------------------------------
+# Unreal Engine 4: Project Files
+# --------------------------------------------------
+/Binaries/
+
+/Build/*/*
+!Build/Android/ManifestRequirementsOverride.txt
+!Build/*/PakBlacklist-*.txt
+
+/DerivedDataCache/
+
+/Intermediate/
+
+/Plugins/*/Binaries
+#!/Plugins/SomePlugin/Binaries/
+/Plugins/*/Intermediate/
+
+/Saved/
+
+*_BuiltData.uasset
+
+# -------------
+# Visual Studio
+# -------------
+/.vs/
+/*.sln
+
+# --------------------------------------------------
+# Never upload these
+# --------------------------------------------------
+*.keystore
