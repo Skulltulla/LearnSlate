@@ -39,11 +39,21 @@ public:
 	/** This function will be bound to Command. */
 	void PluginButtonClicked();
 
+public:
+	/** Practice Slate Windows Methods */
+
+	// TODO: SWindow as return value
+
 	/**
 	* Makes an instance of SWindow using SNew()
 	* and assigns it to this->EmptyWindow.
 	*/
 	void MakeEmptyWindow();
+
+	/**
+	*
+	*/
+	void MakeContentWindow();
 	
 	/** 
 	* Make an instances of SMyEmptyWindow using SNew()
@@ -56,11 +66,15 @@ private:
 
 private:
 	TSharedPtr<class FUICommandList> PluginCommands;
+
 private:
 
 	// See MakeEmptyWindow()
 	static TSharedPtr<SWindow> EmptyWindow;
 	static bool IsEmptyWindowEnabled() { return true; }
+
+	// See MakeContentWindow()
+	static TSharedPtr<SWindow> ContentWindow;
 
 	// See MakeMyEmptyWindow()
 	static TSharedPtr<SMyEmptyWindow> MyEmptyWindow;

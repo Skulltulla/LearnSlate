@@ -8,6 +8,7 @@
 
 // STATIC VARIABLE DEFINITION
 TSharedPtr<SWindow> FLearnToolbarButtonModule::EmptyWindow;
+TSharedPtr<SWindow> FLearnToolbarButtonModule::ContentWindow;
 TSharedPtr<SMyEmptyWindow> FLearnToolbarButtonModule::MyEmptyWindow;
 
 // GLOBAL VARIABLES
@@ -55,8 +56,9 @@ void FLearnToolbarButtonModule::PluginButtonClicked()
 	FMessageDialog::Open(EAppMsgType::Ok, DialogText);
 	*/
 
-	MakeEmptyWindow();
+	// MakeEmptyWindow();
 	// MakeMyEmptyWindow();
+	MakeContentWindow();
 }
 
 void FLearnToolbarButtonModule::MakeEmptyWindow()
@@ -87,6 +89,57 @@ void FLearnToolbarButtonModule::MakeEmptyWindow()
 		// .Visibility(EVisibility::All); // WARNING: "EVisibility::Visible" crashes the editor here
 	EmptyWindow->Resize(FVector2D(640, 480)); // NOTE: Call this or else the MinHeight and MinWidth will be used
 	FSlateApplication::Get().AddWindow(EmptyWindow.ToSharedRef());
+}
+
+void FLearnToolbarButtonModule::MakeContentWindow()
+{
+	if (ContentWindow.IsValid())
+	{
+		FSlateApplication::Get().DestroyWindowImmediately(ContentWindow.ToSharedRef());
+	}
+
+	FAccessibleWidgetData AccessibleParams = FAccessibleWidgetData(EAccessibleBehavior::Auto);
+
+	ContentWindow = SNew(SWindow)
+		.AccessibleParams(AccessibleParams)
+		.ActivationPolicy(EWindowActivationPolicy::Always) 
+		.IsEnabled_Static(&FLearnToolbarButtonModule::IsEmptyWindowEnabled)
+		.MinHeight(320.f)
+		.MinWidth(240.f)
+		.ShouldPreserveAspectRatio(false)
+		.SizingRule(ESizingRule::UserSized)
+		.Title(NSLOCTEXT("NS_SLATE_WINDOWS", "ContentWindowKey", "Content Window"))
+		.Type(EWindowType::Normal);
+
+	TSharedRef<SBorder> RootBorder = SNew(SBorder)
+		.HAlign( EHorizontalAlignment::HAlign_Fill )
+		.VAlign( EVerticalAlignment::VAlign_Fill )
+		.Padding(8)
+		[
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			.HAlign( EHorizontalAlignment::HAlign_Left )
+			.Padding(2)
+			[
+				SNew(STextBlock)
+				.AutoWrapText(true)
+				.Text(NSLOCTEXT("NS_NONE", "ContentWindowSectionTitleKey", "Content Window Section"))
+			]
+			+ SVerticalBox::Slot()
+			.AutoHeight()
+			.HAlign( EHorizontalAlignment::HAlign_Left )
+			.Padding(2)
+			[
+				SNew(STextBlock)
+				.AutoWrapText(true)
+				.Text(NSLOCTEXT("NS_NONE", "ContentWindowSection2TitleKey", "Content Window Section 2"))
+			]
+		];
+	ContentWindow->SetContent(RootBorder);
+
+	ContentWindow->Resize(FVector2D(640, 480)); 
+	FSlateApplication::Get().AddWindow(ContentWindow.ToSharedRef());
 }
 
 void FLearnToolbarButtonModule::MakeMyEmptyWindow()
