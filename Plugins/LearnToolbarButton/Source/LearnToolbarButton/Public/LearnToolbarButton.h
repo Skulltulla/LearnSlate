@@ -14,18 +14,45 @@ class SMyEmptyWindow : public SWindow
 {
 public:
 
-	// SLATE_BEGIN_ARGS(SMyEmptyWindow)
-	// 	: _SupportsMaximize(true)
-	// {
-	// }
-	// SLATE_END_ARGS()
+	/**
+	* Without SLATE_BEGIN_ARGS()/SLATE_END_ARGS(), the properties
+	* of SWindow may be specified during object instantiation, i.e:
+	*
+	*	MyEmptyWindow = SNew(SMyEmptyWindow)
+	*		.SupportsMaximize(true);
+	*
+	* With SLATE_BEGIN_ARGS()/SLATE_END_ARGS(), the properties of
+	* SWindow will not appear and must be redeclared and assigned in
+	* the Construct() method.
+	*/
+	SLATE_BEGIN_ARGS(SMyEmptyWindow)
+	{ 
+		/** Initialize Arguments with Default Values */
+		_bMyCustomBoolProperty = false;
+		_Title = FText();
+
+		// See TSlateBasedNameArgs for arguments that don't need to be redeclared:
+		_AccessibleParams = FAccessibleWidgetData(EAccessibleBehavior::Auto);
+	}
+		/** Custom Arguments */
+		SLATE_ARGUMENT(bool, bMyCustomBoolProperty)
+
+		/** Redeclare inherited arguments and assign in Construct */
+		SLATE_ARGUMENT(FText, Title)	// Assigned in constructor: .Title(InArgs._Title)
+	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs)
 	{
-		UE_LOG(LogTemp, Log, TEXT("SEmptyWindow Args:"), *InArgs._Title.Get().ToString());
-
-		// NOTE: Without this, the window will appear as a black box and cannot be closed.
-		SWindow::Construct(InArgs);
+		// NOTE: Without this, the window will appear as a black box 
+		FAccessibleWidgetData AccessibleParams = FAccessibleWidgetData(EAccessibleBehavior::Auto);
+		SWindow::Construct(
+			SWindow::FArguments()
+			.ActivationPolicy(EWindowActivationPolicy::Never)
+			.SizingRule(ESizingRule::UserSized)
+			.Title(InArgs._Title)
+			.SupportsMaximize(true)
+			.SupportsMinimize(true)
+			.SupportsTransparency(EWindowTransparency::None));
 	}
 };
 

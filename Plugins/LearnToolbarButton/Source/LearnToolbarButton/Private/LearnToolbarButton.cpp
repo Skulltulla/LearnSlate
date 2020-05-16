@@ -57,8 +57,8 @@ void FLearnToolbarButtonModule::PluginButtonClicked()
 	*/
 
 	// MakeEmptyWindow();
-	// MakeMyEmptyWindow();
-	MakeContentWindow();
+	MakeMyEmptyWindow();
+	// MakeContentWindow();
 }
 
 void FLearnToolbarButtonModule::MakeEmptyWindow()
@@ -149,15 +149,8 @@ void FLearnToolbarButtonModule::MakeMyEmptyWindow()
 		FSlateApplication::Get().DestroyWindowImmediately(MyEmptyWindow.ToSharedRef());
 	}
 
-	FAccessibleWidgetData AccessibleParams = FAccessibleWidgetData(EAccessibleBehavior::Auto);
 	MyEmptyWindow = SNew(SMyEmptyWindow)
-		.Title(NSLOCTEXT("NS_SLATE_WINDOWS", "MyEmptyWindowKey", "My Empty Window"))
-		.SupportsMaximize(true)
-		.SupportsMinimize(true)
-		.SupportsTransparency( EWindowTransparency::None )
-		.AccessibleParams(AccessibleParams)
-		.ActivationPolicy( EWindowActivationPolicy::Never ) // NOTE: ActivateWhenFirstShown() - Deprecated since 4.16
-		.SizingRule( ESizingRule::UserSized ); 
+		.Title(NSLOCTEXT("NS_SLATE_WINDOWS", "MyEmptyWindowKey", "My Empty Window"));
 	MyEmptyWindow->Resize(FVector2D(640, 480));
 	FSlateApplication::Get().AddWindow(MyEmptyWindow.ToSharedRef());
 }
