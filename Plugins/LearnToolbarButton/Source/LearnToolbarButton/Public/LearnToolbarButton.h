@@ -23,7 +23,12 @@ public:
 	*
 	* With SLATE_BEGIN_ARGS()/SLATE_END_ARGS(), the properties of
 	* SWindow will not appear and must be redeclared and assigned in
-	* the Construct() method.
+	* the Construct() method, i.e.
+	*
+	*	SWindow::Construct( 
+	*		SWindow.FArguments().Title(InArgs._Title)
+	*		...
+	*
 	*/
 	SLATE_BEGIN_ARGS(SMyEmptyWindow)
 	{ 
@@ -38,13 +43,16 @@ public:
 		SLATE_ARGUMENT(bool, bMyCustomBoolProperty)
 
 		/** Redeclare inherited arguments and assign in Construct */
-		SLATE_ARGUMENT(FText, Title)	// Assigned in constructor: .Title(InArgs._Title)
+		SLATE_ARGUMENT(FText, Title)	// Assigned in Construct: .Title(InArgs._Title)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs)
 	{
-		// NOTE: Without this, the window will appear as a black box 
+		//@TODO: Initialize UI Resources
+
 		FAccessibleWidgetData AccessibleParams = FAccessibleWidgetData(EAccessibleBehavior::Auto);
+
+		// NOTE: Without this, the window will appear as a black box 
 		SWindow::Construct(
 			SWindow::FArguments()
 			.ActivationPolicy(EWindowActivationPolicy::Never)
